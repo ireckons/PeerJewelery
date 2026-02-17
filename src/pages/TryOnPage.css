@@ -1,0 +1,309 @@
+.tryon {
+    padding-bottom: var(--space-3xl);
+}
+
+.tryon__header {
+    padding: var(--space-2xl) 0;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-xl);
+}
+
+.tryon__header .section-label,
+.tryon__header .section-title {
+    text-align: left;
+}
+
+.tryon__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+    transition: color var(--transition-fast);
+}
+
+.tryon__back:hover {
+    color: var(--color-primary);
+}
+
+/* ── Product Info ── */
+.tryon__product {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.tryon__product-img {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+}
+
+.tryon__product-name {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.tryon__product-price {
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* ── API Key ── */
+.tryon__api-key {
+    padding: var(--space-lg);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.tryon__api-key-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.tryon__api-key-header svg {
+    color: var(--color-primary);
+}
+
+.tryon__api-input {
+    width: 100%;
+    padding: 10px var(--space-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-xs);
+}
+
+.tryon__api-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.tryon__api-hint a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+/* ── Main Layout ── */
+.tryon__main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+/* ── Upload ── */
+.tryon__upload {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.tryon__instructions {
+    text-align: center;
+    padding: var(--space-lg);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.tryon__instructions-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+}
+
+.tryon__instructions h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: var(--space-xs);
+}
+
+.tryon__instructions p {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.tryon__dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-3xl) var(--space-xl);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+    color: var(--color-text-muted);
+}
+
+.tryon__dropzone:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(137, 180, 212, 0.05);
+}
+
+.tryon__dropzone svg {
+    opacity: 0.6;
+}
+
+.tryon__dropzone-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.tryon__dropzone-subtitle {
+    font-size: 0.8rem;
+}
+
+.tryon__preview {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.tryon__preview img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    background: #111;
+}
+
+.tryon__change-photo {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    color: white;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.tryon__change-photo:hover {
+    background: var(--color-primary);
+    color: #000;
+}
+
+.tryon__generate-btn {
+    width: 100%;
+}
+
+/* ── Result ── */
+.tryon__result {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tryon__loading,
+.tryon__error,
+.tryon__placeholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-3xl);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    min-height: 400px;
+}
+
+.tryon__loading h3,
+.tryon__placeholder h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+}
+
+.tryon__loading p,
+.tryon__placeholder p {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.tryon__placeholder svg {
+    opacity: 0.2;
+}
+
+.tryon__error {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.tryon__error svg {
+    color: #ef4444;
+}
+
+.tryon__error h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-sm);
+    color: #ef4444;
+}
+
+.tryon__error p {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.tryon__result-image {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    animation: scaleIn var(--transition-base) forwards;
+}
+
+.tryon__result-image img {
+    width: 100%;
+    display: block;
+}
+
+.tryon__download {
+    width: 100%;
+    border-radius: 0;
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-md);
+}
+
+@media (max-width: 768px) {
+    .tryon__main {
+        grid-template-columns: 1fr;
+    }
+
+    .tryon__result {
+        min-height: 300px;
+    }
+}
