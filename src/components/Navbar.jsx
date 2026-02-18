@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ShoppingBag, Menu, X, Gem } from 'lucide-react'
+import { ShoppingBag, Heart, Menu, X, Gem } from 'lucide-react'
 import useStore from '../store/store'
 import './Navbar.css'
 
@@ -9,6 +9,7 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const location = useLocation()
     const cartCount = useStore((s) => s.getCartCount())
+    const wishlistCount = useStore((s) => s.getWishlistCount())
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -55,7 +56,11 @@ export default function Navbar() {
                 </div>
 
                 <div className="navbar__actions">
-                    <Link to="/cart" className="navbar__cart" id="nav-cart">
+                    <Link to="/wishlist" className="navbar__cart" id="nav-wishlist" title="Wishlist">
+                        <Heart size={20} />
+                        {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
+                    </Link>
+                    <Link to="/cart" className="navbar__cart" id="nav-cart" title="Cart">
                         <ShoppingBag size={22} />
                         {cartCount > 0 && <span className="badge">{cartCount}</span>}
                     </Link>

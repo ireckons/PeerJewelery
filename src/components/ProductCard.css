@@ -122,3 +122,14 @@
     margin-top: var(--space-xs);
     font-weight: 500;
 }
+
+.product-card__action--active {
+    background: rgba(255, 80, 80, 0.3);
+    color: #ff6b6b;
+    border-color: rgba(255, 80, 80, 0.4);
+}
+
+.product-card__action--active:hover {
+    background: rgba(255, 80, 80, 0.5);
+    color: #ff4444;
+}

@@ -5,13 +5,24 @@ import './ProductCard.css'
 
 export default function ProductCard({ product }) {
     const addToCart = useStore((s) => s.addToCart)
+    const toggleWishlist = useStore((s) => s.toggleWishlist)
+    const isInWishlist = useStore((s) => s.isInWishlist)
     const showToast = useStore((s) => s.showToast)
+
+    const wishlisted = isInWishlist(product.id)
 
     const handleAddToCart = (e) => {
         e.preventDefault()
         e.stopPropagation()
         addToCart(product)
         showToast(`${product.name} added to cart`)
+    }
+
+    const handleToggleWishlist = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        toggleWishlist(product)
+        showToast(wishlisted ? `${product.name} removed from wishlist` : `${product.name} added to wishlist`)
     }
 
     return (
@@ -30,8 +41,12 @@ export default function ProductCard({ product }) {
                     <button className="product-card__action" onClick={handleAddToCart} title="Add to cart">
                         <ShoppingBag size={18} />
                     </button>
-                    <button className="product-card__action" onClick={(e) => e.preventDefault()} title="Wishlist">
-                        <Heart size={18} />
+                    <button
+                        className={`product-card__action ${wishlisted ? 'product-card__action--active' : ''}`}
+                        onClick={handleToggleWishlist}
+                        title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                    >
+                        <Heart size={18} fill={wishlisted ? 'currentColor' : 'none'} />
                     </button>
                 </div>
             </div>
@@ -52,3 +67,4 @@ export default function ProductCard({ product }) {
         </Link>
     )
 }
+

@@ -8,6 +8,10 @@ import ProductDetailPage from './pages/ProductDetailPage'
 import CartPage from './pages/CartPage'
 import AdminPage from './pages/AdminPage'
 import TryOnPage from './pages/TryOnPage'
+import WishlistPage from './pages/WishlistPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import TermsPage from './pages/TermsPage'
+import AccessibilityPage from './pages/AccessibilityPage'
 
 export default function App() {
     return (
@@ -20,8 +24,12 @@ export default function App() {
                     <Route path="/catalog/:category" element={<CatalogPage />} />
                     <Route path="/product/:id" element={<ProductDetailPage />} />
                     <Route path="/cart" element={<CartPage />} />
+                    <Route path="/wishlist" element={<WishlistPage />} />
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/try-on/:id" element={<TryOnPage />} />
+                    <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                    <Route path="/terms" element={<TermsPage />} />
+                    <Route path="/accessibility" element={<AccessibilityPage />} />
                 </Routes>
             </main>
             <Footer />
@@ -29,3 +37,4 @@ export default function App() {
         </div>
     )
 }
+

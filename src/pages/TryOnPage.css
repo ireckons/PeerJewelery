@@ -59,46 +59,79 @@
     font-weight: 600;
 }
 
-/* ── API Key ── */
-.tryon__api-key {
+/* ── Coming Soon Banner ── */
+.tryon__coming-soon {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
     padding: var(--space-lg);
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
+    background: linear-gradient(135deg, rgba(137, 180, 212, 0.08), rgba(137, 180, 212, 0.03));
+    border: 1px solid rgba(137, 180, 212, 0.2);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-xl);
 }
 
-.tryon__api-key-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-sm);
+.tryon__coming-soon svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 2px;
 }
 
-.tryon__api-key-header svg {
+.tryon__coming-soon strong {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: var(--space-xs);
     color: var(--color-primary);
 }
 
-.tryon__api-input {
-    width: 100%;
-    padding: 10px var(--space-md);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    margin-bottom: var(--space-xs);
+.tryon__coming-soon p {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
 }
 
-.tryon__api-hint {
-    font-size: 0.75rem;
+/* ── Pose Guide ── */
+.tryon__pose-guide {
+    display: flex;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    align-items: center;
+}
+
+.tryon__pose-guide-visual {
+    flex-shrink: 0;
+    width: 180px;
+    height: 180px;
+}
+
+.tryon__pose-svg {
+    width: 100%;
+    height: 100%;
     color: var(--color-text-muted);
 }
 
-.tryon__api-hint a {
-    color: var(--color-primary);
-    text-decoration: underline;
+.tryon__pose-guide-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.tryon__pose-guide-info p {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-xs);
+}
+
+.tryon__pose-tip {
+    font-size: 0.78rem !important;
+    color: var(--color-primary) !important;
+    margin-top: var(--space-sm);
 }
 
 /* ── Main Layout ── */

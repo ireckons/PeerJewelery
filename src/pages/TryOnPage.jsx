@@ -1,27 +1,123 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
-    Upload, Sparkles, ArrowLeft, Camera, Key,
-    Image as ImageIcon, Loader2, AlertTriangle, Download
+    Upload, Sparkles, ArrowLeft, Camera,
+    Image as ImageIcon, Info
 } from 'lucide-react'
 import useStore from '../store/store'
-import {
-    generateTryOn, getApiKey, setApiKey, fileToBase64,
-    imageUrlToBase64
-} from '../utils/geminiApi'
 import './TryOnPage.css'
+
+/* ── SVG Pose Guides ── */
+function HandPoseGuide() {
+    return (
+        <svg viewBox="0 0 300 300" className="tryon__pose-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="296" height="296" rx="16" stroke="currentColor" strokeWidth="1" strokeDasharray="6 4" opacity="0.3" />
+            {/* Palm */}
+            <ellipse cx="150" cy="190" rx="55" ry="65" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+            {/* Thumb */}
+            <path d="M95 175 Q75 155 80 130 Q85 115 95 115" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+            {/* Index finger */}
+            <path d="M120 128 Q118 95 122 65 Q125 50 130 50" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+            {/* Middle finger */}
+            <path d="M145 125 Q143 88 145 52 Q147 38 150 38" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+            {/* Ring finger — highlighted */}
+            <path d="M170 128 Q172 92 170 58 Q168 44 165 44" stroke="var(--color-primary)" strokeWidth="2.5" strokeLinecap="round" opacity="0.9" />
+            <circle cx="170" cy="88" r="8" stroke="var(--color-primary)" strokeWidth="1.5" fill="none" opacity="0.7" />
+            <text x="195" y="92" fill="var(--color-primary)" fontSize="10" fontFamily="sans-serif" opacity="0.8">Ring here</text>
+            {/* Pinky */}
+            <path d="M195 135 Q198 108 195 80 Q192 68 188 68" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+            {/* Wrist */}
+            <path d="M105 250 Q150 265 195 250" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.3" />
+        </svg>
+    )
+}
+
+function NecklacePoseGuide() {
+    return (
+        <svg viewBox="0 0 300 300" className="tryon__pose-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="296" height="296" rx="16" stroke="currentColor" strokeWidth="1" strokeDasharray="6 4" opacity="0.3" />
+            {/* Head */}
+            <ellipse cx="150" cy="70" rx="38" ry="45" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+            {/* Neck */}
+            <path d="M130 112 L130 150" stroke="currentColor" strokeWidth="2" opacity="0.4" />
+            <path d="M170 112 L170 150" stroke="currentColor" strokeWidth="2" opacity="0.4" />
+            {/* Shoulders */}
+            <path d="M130 150 Q100 155 60 175" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+            <path d="M170 150 Q200 155 240 175" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+            {/* Body */}
+            <path d="M60 175 L75 280" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+            <path d="M240 175 L225 280" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+            {/* Necklace area — highlighted */}
+            <path d="M120 140 Q150 170 180 140" stroke="var(--color-primary)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" strokeDasharray="4 3" />
+            <circle cx="150" cy="165" r="6" fill="var(--color-primary)" opacity="0.6" />
+            <text x="155" y="188" fill="var(--color-primary)" fontSize="10" fontFamily="sans-serif" opacity="0.8">Necklace area</text>
+            {/* Cross-hair guides */}
+            <line x1="150" y1="20" x2="150" y2="30" stroke="currentColor" strokeWidth="1" opacity="0.2" />
+            <line x1="145" y1="25" x2="155" y2="25" stroke="currentColor" strokeWidth="1" opacity="0.2" />
+        </svg>
+    )
+}
+
+function EarringPoseGuide() {
+    return (
+        <svg viewBox="0 0 300 300" className="tryon__pose-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="296" height="296" rx="16" stroke="currentColor" strokeWidth="1" strokeDasharray="6 4" opacity="0.3" />
+            {/* Face outline */}
+            <ellipse cx="150" cy="140" rx="65" ry="82" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+            {/* Hair */}
+            <path d="M85 120 Q85 60 150 55 Q215 60 215 120" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+            {/* Eyes */}
+            <ellipse cx="125" cy="130" rx="12" ry="5" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+            <ellipse cx="175" cy="130" rx="12" ry="5" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+            {/* Nose */}
+            <path d="M148 145 Q150 158 152 145" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+            {/* Mouth */}
+            <path d="M135 175 Q150 185 165 175" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+            {/* Left ear — highlighted */}
+            <path d="M87 120 Q72 130 75 155 Q78 170 87 170" stroke="var(--color-primary)" strokeWidth="2.5" opacity="0.8" />
+            <circle cx="82" cy="172" r="5" fill="var(--color-primary)" opacity="0.6" />
+            <line cx="82" cy="172" x1="82" y1="177" x2="82" y2="192" stroke="var(--color-primary)" strokeWidth="1.5" opacity="0.6" />
+            <text x="30" y="200" fill="var(--color-primary)" fontSize="9" fontFamily="sans-serif" opacity="0.8">Earring</text>
+            {/* Right ear — highlighted */}
+            <path d="M213 120 Q228 130 225 155 Q222 170 213 170" stroke="var(--color-primary)" strokeWidth="2.5" opacity="0.8" />
+            <circle cx="218" cy="172" r="5" fill="var(--color-primary)" opacity="0.6" />
+            <line x1="218" y1="177" x2="218" y2="192" stroke="var(--color-primary)" strokeWidth="1.5" opacity="0.6" />
+            <text x="230" y="200" fill="var(--color-primary)" fontSize="9" fontFamily="sans-serif" opacity="0.8">Earring</text>
+            {/* Neck */}
+            <path d="M130 220 L130 260" stroke="currentColor" strokeWidth="1.5" opacity="0.2" />
+            <path d="M170 220 L170 260" stroke="currentColor" strokeWidth="1.5" opacity="0.2" />
+        </svg>
+    )
+}
+
+const poseGuides = {
+    rings: {
+        component: HandPoseGuide,
+        title: 'Hand Photo Required',
+        instruction: 'Hold your hand flat in front of the camera with fingers slightly spread, like this outline.',
+        tip: 'Good lighting and a neutral background work best.'
+    },
+    necklaces: {
+        component: NecklacePoseGuide,
+        title: 'Passport-Style Photo Required',
+        instruction: 'Stand straight facing the camera with your neck and upper chest visible — like a passport photo.',
+        tip: 'Wear a simple top and keep hair away from your neck.'
+    },
+    earrings: {
+        component: EarringPoseGuide,
+        title: 'Face & Ear Photo Required',
+        instruction: 'Face the camera with both ears clearly visible. A slight angle works too.',
+        tip: 'Pull hair behind your ears for the best result.'
+    }
+}
 
 export default function TryOnPage() {
     const { id } = useParams()
     const products = useStore((s) => s.products)
     const product = products.find((p) => p.id === id)
 
-    const [apiKeyInput, setApiKeyInput] = useState(getApiKey())
     const [userPhoto, setUserPhoto] = useState(null)
     const [userPhotoPreview, setUserPhotoPreview] = useState(null)
-    const [resultImage, setResultImage] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -40,80 +136,19 @@ export default function TryOnPage() {
         )
     }
 
-    const bodyPartInstructions = {
-        rings: {
-            title: 'Upload a Hand Photo',
-            description: 'Take a clear photo of your hand with fingers visible for the best ring preview.',
-            icon: '✋'
-        },
-        necklaces: {
-            title: 'Upload a Neck/Upper Body Photo',
-            description: 'Take a photo showing your neck and upper chest area for a necklace preview.',
-            icon: '👤'
-        },
-        earrings: {
-            title: 'Upload a Face/Ear Photo',
-            description: 'Take a clear photo showing your face and ears for an earring preview.',
-            icon: '👂'
-        }
-    }
-
-    const instructions = bodyPartInstructions[product.category] || bodyPartInstructions.rings
+    const guide = poseGuides[product.category] || poseGuides.rings
+    const PoseComponent = guide.component
 
     const handleFileUpload = async (e) => {
         const file = e.target.files?.[0]
         if (!file) return
 
-        setError(null)
-        setResultImage(null)
-
-        const base64 = await fileToBase64(file)
-        setUserPhoto(base64)
-        setUserPhotoPreview(base64)
-    }
-
-    const handleGenerate = async () => {
-        if (!userPhoto) {
-            setError('Please upload a photo first.')
-            return
+        const reader = new FileReader()
+        reader.onload = () => {
+            setUserPhoto(reader.result)
+            setUserPhotoPreview(reader.result)
         }
-
-        if (!apiKeyInput) {
-            setError('Please enter your Gemini API key.')
-            return
-        }
-
-        setApiKey(apiKeyInput)
-        setLoading(true)
-        setError(null)
-        setResultImage(null)
-
-        try {
-            // Get the product image as base64
-            const productImageBase64 = await imageUrlToBase64(product.images[0])
-
-            // Call Gemini API
-            const result = await generateTryOn(
-                userPhoto,
-                productImageBase64,
-                product.category,
-                apiKeyInput
-            )
-
-            setResultImage(result)
-        } catch (err) {
-            setError(err.message || 'Failed to generate try-on image. Please try again.')
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    const handleDownload = () => {
-        if (!resultImage) return
-        const link = document.createElement('a')
-        link.href = resultImage
-        link.download = `peer-jewelry-tryon-${product.id}.png`
-        link.click()
+        reader.readAsDataURL(file)
     }
 
     return (
@@ -139,34 +174,31 @@ export default function TryOnPage() {
                     </div>
                 </div>
 
-                {/* API Key */}
-                <div className="tryon__api-key animate-fade-in-up">
-                    <div className="tryon__api-key-header">
-                        <Key size={16} />
-                        <span>Gemini API Key</span>
+                {/* Coming Soon Banner */}
+                <div className="tryon__coming-soon animate-fade-in-up">
+                    <Info size={18} />
+                    <div>
+                        <strong>AI Try-On — Coming Soon</strong>
+                        <p>
+                            The AI-powered virtual try-on will be available soon. For now, use the pose guide
+                            below to prepare your photo so you'll be ready when the feature launches.
+                        </p>
                     </div>
-                    <input
-                        type="password"
-                        value={apiKeyInput}
-                        onChange={(e) => setApiKeyInput(e.target.value)}
-                        placeholder="Enter your Gemini API key..."
-                        className="tryon__api-input"
-                    />
-                    <p className="tryon__api-hint">
-                        Your key is stored locally and never sent to our servers.{' '}
-                        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">
-                            Get a free key →
-                        </a>
-                    </p>
                 </div>
 
                 <div className="tryon__main">
-                    {/* Upload Section */}
+                    {/* Pose Guide + Upload Section */}
                     <div className="tryon__upload animate-fade-in-up">
-                        <div className="tryon__instructions">
-                            <span className="tryon__instructions-icon">{instructions.icon}</span>
-                            <h3>{instructions.title}</h3>
-                            <p>{instructions.description}</p>
+                        {/* Pose Guide */}
+                        <div className="tryon__pose-guide">
+                            <div className="tryon__pose-guide-visual">
+                                <PoseComponent />
+                            </div>
+                            <div className="tryon__pose-guide-info">
+                                <h3>{guide.title}</h3>
+                                <p>{guide.instruction}</p>
+                                <p className="tryon__pose-tip">💡 {guide.tip}</p>
+                            </div>
                         </div>
 
                         {userPhotoPreview ? (
@@ -201,57 +233,20 @@ export default function TryOnPage() {
 
                         <button
                             className="btn btn-primary btn-lg tryon__generate-btn"
-                            onClick={handleGenerate}
-                            disabled={loading || !userPhoto || !apiKeyInput}
+                            disabled={true}
                         >
-                            {loading ? (
-                                <>
-                                    <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }} />
-                                    Generating...
-                                </>
-                            ) : (
-                                <>
-                                    <Sparkles size={18} />
-                                    Generate Try-On Preview
-                                </>
-                            )}
+                            <Sparkles size={18} />
+                            Generate Try-On Preview
                         </button>
                     </div>
 
                     {/* Result Section */}
                     <div className="tryon__result animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-                        {loading && (
-                            <div className="tryon__loading">
-                                <div className="spinner" />
-                                <h3>Creating your preview...</h3>
-                                <p>Our AI is blending the jewelry onto your photo. This may take a moment.</p>
-                            </div>
-                        )}
-
-                        {error && (
-                            <div className="tryon__error">
-                                <AlertTriangle size={24} />
-                                <h3>Something went wrong</h3>
-                                <p>{error}</p>
-                            </div>
-                        )}
-
-                        {resultImage && !loading && (
-                            <div className="tryon__result-image">
-                                <img src={resultImage} alt="AI Try-On Result" />
-                                <button className="btn btn-outline btn-sm tryon__download" onClick={handleDownload}>
-                                    <Download size={14} /> Download Image
-                                </button>
-                            </div>
-                        )}
-
-                        {!resultImage && !loading && !error && (
-                            <div className="tryon__placeholder">
-                                <ImageIcon size={48} />
-                                <h3>Your try-on preview will appear here</h3>
-                                <p>Upload your photo and click "Generate" to see how the jewelry looks on you.</p>
-                            </div>
-                        )}
+                        <div className="tryon__placeholder">
+                            <ImageIcon size={48} />
+                            <h3>Your try-on preview will appear here</h3>
+                            <p>Once the AI feature launches, upload your photo and generate a preview of how the jewelry looks on you.</p>
+                        </div>
                     </div>
                 </div>
             </div>

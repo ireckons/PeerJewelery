@@ -34,7 +34,7 @@ const initialProducts = [
         discount: 12,
         category: 'rings',
         stock: 2,
-        images: ['/products/ring-3.svg'],
+        images: ['/products/pear-cluster-1.jpg', '/products/pear-cluster-2.jpg', '/products/pear-cluster-3.jpg', '/products/pear-cluster-4.jpg'],
         featured: false
     },
     {
@@ -124,6 +124,24 @@ const loadProducts = () => {
 const loadCart = () => {
     try {
         const saved = localStorage.getItem('peer-cart')
+        return saved ? JSON.parse(saved) : []
+    } catch {
+        return []
+    }
+}
+
+const loadWishlist = () => {
+    try {
+        const saved = localStorage.getItem('peer-wishlist')
+        return saved ? JSON.parse(saved) : []
+    } catch {
+        return []
+    }
+}
+
+const loadRequests = () => {
+    try {
+        const saved = localStorage.getItem('peer-requests')
         return saved ? JSON.parse(saved) : []
     } catch {
         return []
@@ -230,6 +248,76 @@ const useStore = create((set, get) => ({
     showToast: (message) => {
         set({ toast: message })
         setTimeout(() => set({ toast: null }), 3000)
+    },
+
+    // ── Wishlist ──
+    wishlist: loadWishlist(),
+
+    toggleWishlist: (product) => {
+        set((state) => {
+            const exists = state.wishlist.find((item) => item.id === product.id)
+            let updated
+            if (exists) {
+                updated = state.wishlist.filter((item) => item.id !== product.id)
+            } else {
+                updated = [...state.wishlist, { ...product }]
+            }
+            localStorage.setItem('peer-wishlist', JSON.stringify(updated))
+            return { wishlist: updated }
+        })
+    },
+
+    removeFromWishlist: (productId) => {
+        set((state) => {
+            const updated = state.wishlist.filter((item) => item.id !== productId)
+            localStorage.setItem('peer-wishlist', JSON.stringify(updated))
+            return { wishlist: updated }
+        })
+    },
+
+    isInWishlist: (productId) => {
+        const { wishlist } = get()
+        return wishlist.some((item) => item.id === productId)
+    },
+
+    getWishlistCount: () => {
+        const { wishlist } = get()
+        return wishlist.length
+    },
+
+    // ── Customer Requests ──
+    requests: loadRequests(),
+
+    submitRequest: ({ buyerName, buyerEmail, buyerPhone, items }) => {
+        set((state) => {
+            const newRequest = {
+                id: Date.now().toString(),
+                buyerName,
+                buyerEmail,
+                buyerPhone,
+                items: items.map((item) => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    category: item.category,
+                    image: item.images?.[0] || ''
+                })),
+                total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                date: new Date().toISOString(),
+                status: 'pending'
+            }
+            const updated = [newRequest, ...state.requests]
+            localStorage.setItem('peer-requests', JSON.stringify(updated))
+            // Clear cart after submission
+            localStorage.setItem('peer-cart', JSON.stringify([]))
+            return { requests: updated, cart: [] }
+        })
+    },
+
+    clearRequests: () => {
+        localStorage.setItem('peer-requests', JSON.stringify([]))
+        set({ requests: [] })
     }
 }))
 

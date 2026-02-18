@@ -48,8 +48,9 @@ export default function Footer() {
                 <div className="footer__bottom">
                     <p>© {new Date().getFullYear()} Peer Jewelry. All rights reserved.</p>
                     <div className="footer__bottom-links">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Service</a>
+                        <Link to="/privacy">Privacy Policy</Link>
+                        <Link to="/terms">Terms of Service</Link>
+                        <Link to="/accessibility">Accessibility</Link>
                     </div>
                 </div>
             </div>

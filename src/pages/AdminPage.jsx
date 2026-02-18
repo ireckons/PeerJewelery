@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
     Package, Plus, Pencil, Trash2, Image, X, RotateCcw,
-    DollarSign, Tag, Archive, Save
+    DollarSign, Tag, Archive, Save, Users, Mail, Phone, Calendar
 } from 'lucide-react'
 import useStore from '../store/store'
 import './AdminPage.css'
@@ -24,6 +24,8 @@ export default function AdminPage() {
     const updateProduct = useStore((s) => s.updateProduct)
     const deleteProduct = useStore((s) => s.deleteProduct)
     const resetProducts = useStore((s) => s.resetProducts)
+    const requests = useStore((s) => s.requests)
+    const clearRequests = useStore((s) => s.clearRequests)
     const showToast = useStore((s) => s.showToast)
 
     const [showModal, setShowModal] = useState(false)
@@ -230,6 +232,69 @@ export default function AdminPage() {
                             ))}
                         </tbody>
                     </table>
+                </div>
+
+                {/* Customer Requests Section */}
+                <div className="admin__requests animate-fade-in-up" style={{ marginTop: 'var(--space-2xl)' }}>
+                    <div className="admin__requests-header">
+                        <div>
+                            <h2 className="admin__requests-title">
+                                <Users size={20} /> Customer Requests
+                            </h2>
+                            <p className="admin__requests-subtitle">
+                                {requests.length} {requests.length === 1 ? 'inquiry' : 'inquiries'} received
+                            </p>
+                        </div>
+                        {requests.length > 0 && (
+                            <button className="btn btn-ghost btn-sm" onClick={() => {
+                                clearRequests()
+                                showToast('All requests cleared')
+                            }}>
+                                <Trash2 size={14} /> Clear All
+                            </button>
+                        )}
+                    </div>
+
+                    {requests.length === 0 ? (
+                        <div className="admin__requests-empty">
+                            <Mail size={32} />
+                            <p>No customer inquiries yet. Requests will appear here when customers submit them from their cart.</p>
+                        </div>
+                    ) : (
+                        <div className="admin__requests-list">
+                            {requests.map((request) => (
+                                <div key={request.id} className="admin__request-card">
+                                    <div className="admin__request-header">
+                                        <div className="admin__request-buyer">
+                                            <strong>{request.buyerName}</strong>
+                                            <span className="admin__request-status">{request.status}</span>
+                                        </div>
+                                        <div className="admin__request-contact">
+                                            <span><Mail size={12} /> {request.buyerEmail}</span>
+                                            {request.buyerPhone && <span><Phone size={12} /> {request.buyerPhone}</span>}
+                                            <span><Calendar size={12} /> {new Date(request.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                                        </div>
+                                    </div>
+                                    <div className="admin__request-items">
+                                        {request.items.map((item, idx) => (
+                                            <div key={idx} className="admin__request-item">
+                                                {item.image && <img src={item.image} alt={item.name} className="admin__request-item-img" />}
+                                                <div className="admin__request-item-info">
+                                                    <span className="admin__request-item-name">{item.name}</span>
+                                                    <span className="admin__request-item-meta">{item.category} · Qty: {item.quantity}</span>
+                                                </div>
+                                                <span className="admin__request-item-price">${(item.price * item.quantity).toLocaleString()}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="admin__request-total">
+                                        <span>Estimated Total</span>
+                                        <span>${request.total.toLocaleString()}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
 

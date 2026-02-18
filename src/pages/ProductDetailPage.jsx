@@ -19,12 +19,15 @@ export default function ProductDetailPage() {
     const navigate = useNavigate()
     const products = useStore((s) => s.products)
     const addToCart = useStore((s) => s.addToCart)
+    const toggleWishlist = useStore((s) => s.toggleWishlist)
+    const isInWishlist = useStore((s) => s.isInWishlist)
     const showToast = useStore((s) => s.showToast)
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
     const [quantity, setQuantity] = useState(1)
 
     const product = products.find((p) => p.id === id)
     const related = products.filter((p) => p.id !== id && p.category === product?.category).slice(0, 4)
+    const wishlisted = product ? isInWishlist(product.id) : false
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -165,6 +168,16 @@ export default function ProductDetailPage() {
                             >
                                 <ShoppingBag size={18} />
                                 Add to Cart
+                            </button>
+                            <button
+                                className={`btn btn-outline btn-lg pdp__wishlist-btn ${wishlisted ? 'pdp__wishlist-btn--active' : ''}`}
+                                onClick={() => {
+                                    toggleWishlist(product)
+                                    showToast(wishlisted ? `${product.name} removed from wishlist` : `${product.name} added to wishlist`)
+                                }}
+                                title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                            >
+                                <Heart size={18} fill={wishlisted ? 'currentColor' : 'none'} />
                             </button>
                         </div>
 

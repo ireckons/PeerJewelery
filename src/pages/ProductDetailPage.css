@@ -218,6 +218,25 @@
     flex: 1;
 }
 
+.pdp__wishlist-btn {
+    flex-shrink: 0;
+    width: 50px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdp__wishlist-btn--active {
+    color: #ff6b6b;
+    border-color: rgba(255, 80, 80, 0.4);
+    background: rgba(255, 80, 80, 0.1);
+}
+
+.pdp__wishlist-btn--active:hover {
+    background: rgba(255, 80, 80, 0.2);
+}
+
 .pdp__try-on {
     width: 100%;
     margin-bottom: var(--space-xl);
