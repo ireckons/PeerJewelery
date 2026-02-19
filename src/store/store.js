@@ -1,118 +1,179 @@
 import { create } from 'zustand'
 
 const initialProducts = [
+
     {
-        id: '1',
-        name: 'Riviera Tennis Bracelet Set',
-        description: 'Exquisite diamond tennis bracelets in varying widths, set in 18K white gold. A timeless collection that radiates elegance from every angle.',
-        price: 12500,
-        originalPrice: 15000,
-        discount: 17,
-        category: 'rings',
-        stock: 5,
-        images: ['/products/ring-1.svg'],
-        featured: true
-    },
-    {
-        id: '2',
-        name: 'Marquise Solitaire Diamond Ring',
-        description: 'A stunning marquise-cut diamond set on a delicate pavé band. The elongated silhouette creates an illusion of greater size and sophistication.',
-        price: 8900,
-        originalPrice: 8900,
-        discount: 0,
-        category: 'rings',
-        stock: 3,
-        images: ['/products/ring-2.svg'],
-        featured: true
-    },
-    {
-        id: '3',
-        name: 'Pear & Round Cluster Ring',
-        description: 'A breathtaking cluster of pear and round brilliant diamonds, creating a floral motif that captures light from every direction.',
-        price: 15800,
-        originalPrice: 18000,
-        discount: 12,
-        category: 'rings',
-        stock: 2,
-        images: ['/products/pear-cluster-1.jpg', '/products/pear-cluster-2.jpg', '/products/pear-cluster-3.jpg', '/products/pear-cluster-4.jpg'],
-        featured: false
-    },
-    {
-        id: '4',
-        name: 'Oval Halo Engagement Ring',
-        description: 'A magnificent oval diamond surrounded by a delicate halo of micro-pavé diamonds, set on a split-shank band for added brilliance.',
-        price: 11200,
-        originalPrice: 11200,
+        id: '10',
+        name: 'Marquise Cut Solitaire',
+        description: 'An elegant marquise-cut diamond that elongates the finger, maximizing carat weight brilliance.',
+        price: 10500,
+        originalPrice: 10500,
         discount: 0,
         category: 'rings',
         stock: 4,
-        images: ['/products/ring-4.svg'],
+        images: ['/products/rings/marquise-cut-solitaire/1.jpg', '/products/rings/marquise-cut-solitaire/2.jpg', '/products/rings/marquise-cut-solitaire/3.jpg'],
         featured: true
     },
     {
-        id: '5',
-        name: 'Floral Diamond Statement Ring',
-        description: 'An extraordinary floral-inspired ring featuring precisely arranged diamonds that bloom into a captivating centerpiece.',
-        price: 19500,
-        originalPrice: 22000,
-        discount: 11,
-        category: 'rings',
-        stock: 1,
-        images: ['/products/ring-5.svg'],
-        featured: false
-    },
-    {
-        id: '6',
-        name: 'Classic Round Solitaire Ring',
-        description: 'The quintessential engagement ring — a brilliant round diamond elevated on a sleek six-prong setting. Pure and timeless.',
-        price: 9800,
-        originalPrice: 9800,
-        discount: 0,
-        category: 'rings',
-        stock: 7,
-        images: ['/products/ring-6.svg'],
-        featured: true
-    },
-    {
-        id: '7',
-        name: 'Emerald Eternity Band',
-        description: 'A full eternity band featuring emerald-cut diamonds set in a shared prong setting. Each stone perfectly aligned for continuous sparkle.',
-        price: 7600,
-        originalPrice: 8500,
-        discount: 11,
-        category: 'rings',
-        stock: 6,
-        images: ['/products/ring-7.svg'],
-        featured: false
-    },
-    {
-        id: '8',
-        name: 'Double-Row Diamond Band',
-        description: 'Two rows of brilliant round diamonds set in a micro-pavé arrangement, creating a band of uninterrupted light.',
-        price: 6400,
-        originalPrice: 7200,
-        discount: 11,
-        category: 'rings',
-        stock: 8,
-        images: ['/products/ring-8.svg'],
-        featured: false
-    },
-    {
-        id: '9',
-        name: 'Multi-Row Diamond Ring Set',
-        description: 'A versatile set of diamond bands that can be worn stacked or individually. The ultimate expression of layered luxury.',
-        price: 13500,
-        originalPrice: 16000,
-        discount: 16,
+        id: '11',
+        name: 'Three-Stone Trilogy Ring',
+        description: 'Symbolizing the past, present, and future, this trilogy ring features three perfectly matched diamonds.',
+        price: 13200,
+        originalPrice: 15000,
+        discount: 12,
         category: 'rings',
         stock: 3,
-        images: ['/products/ring-9.svg'],
+        images: ['/products/ring-11.svg'],
+        featured: true
+    },
+    {
+        id: '12',
+        name: 'Oval Cut Double Band Ring',
+        description: 'A stunning oval diamond set on a unique double band for a modern yet timeless architectural look.',
+        price: 11800,
+        originalPrice: 11800,
+        discount: 0,
+        category: 'rings',
+        stock: 5,
+        images: ['/products/rings/oval-cut-double-band-ring/1.jpg', '/products/rings/oval-cut-double-band-ring/2.jpg', '/products/rings/oval-cut-double-band-ring/3.jpg', '/products/rings/oval-cut-double-band-ring/4.jpg'],
+        featured: true
+    },
+    {
+        id: '13',
+        name: 'Three-Stone Oval Ring',
+        description: 'A magnificent center oval diamond flanked by two side stones, creating a wall of brilliance.',
+        price: 14500,
+        originalPrice: 16500,
+        discount: 12,
+        category: 'rings',
+        stock: 2,
+        images: ['/products/rings/three-stone-oval-ring/1.jpg', '/products/rings/three-stone-oval-ring/2.jpg', '/products/rings/three-stone-oval-ring/3.jpg', '/products/rings/three-stone-oval-ring/4.jpg'],
+        featured: true
+    },
+    {
+        id: '14',
+        name: 'Solitaire Split Shank Ring',
+        description: 'A brilliant solitaire diamond perched on a graceful split shank band that draws the eye to the center stone.',
+        price: 9200,
+        originalPrice: 9200,
+        discount: 0,
+        category: 'rings',
+        stock: 6,
+        images: ['/products/rings/solitaire-split-shank-ring/1.jpg', '/products/rings/solitaire-split-shank-ring/2.jpg', '/products/rings/solitaire-split-shank-ring/3.jpg', '/products/rings/solitaire-split-shank-ring/4.jpg'],
+        featured: true
+    },
+    {
+        id: '15',
+        name: 'Full Eternity Band',
+        description: 'A continuous circle of brilliance, this full eternity band features precision-set diamonds symbolizing never-ending love.',
+        price: 7200,
+        originalPrice: 8000,
+        discount: 10,
+        category: 'bracelets',
+        stock: 6,
+        images: ['/products/ring-15.svg'],
+        featured: true
+    },
+    {
+        id: '16',
+        name: 'Stacked Eternity Bands',
+        description: 'A curated stack of diamond eternity bands, perfect for wearing together for maximum sparkle or individually.',
+        price: 8800,
+        originalPrice: 9500,
+        discount: 7,
+        category: 'bracelets',
+        stock: 4,
+        images: ['/products/bracelets/stacked-eternity-bands/1.jpg', '/products/bracelets/stacked-eternity-bands/2.jpg', '/products/bracelets/stacked-eternity-bands/3.jpg', '/products/bracelets/stacked-eternity-bands/4.jpg', '/products/bracelets/stacked-eternity-bands/5.jpg'],
+        featured: true
+    },
+    {
+        id: '17',
+        name: 'Diamond Tennis Bracelets',
+        description: 'A stack of exquisite diamond tennis bracelets in varying carat weights, the ultimate statement of luxury.',
+        price: 18500,
+        originalPrice: 22000,
+        discount: 16,
+        category: 'bracelets',
+        stock: 5,
+        images: ['/products/bracelets/diamond-tennis-bracelets/1.jpg', '/products/bracelets/diamond-tennis-bracelets/2.jpg', '/products/bracelets/diamond-tennis-bracelets/3.jpg'],
+        featured: true
+    },
+    {
+        id: '18',
+        name: 'Diamond Stud Earrings',
+        description: 'Classic and timeless, these brilliant-cut diamond studs are the perfect everyday luxury essential.',
+        price: 4500,
+        originalPrice: 4800,
+        discount: 6,
+        category: 'earrings',
+        stock: 8,
+        images: ['/products/earring-1.svg'],
+        featured: true
+    },
+    {
+        id: '19',
+        name: 'Halo Drop Earrings',
+        description: 'Elegant drop earrings featuring a dazzling center stone surrounded by a halo of smaller diamonds.',
+        price: 6800,
+        originalPrice: 7500,
+        discount: 9,
+        category: 'earrings',
+        stock: 5,
+        images: ['/products/earring-2.svg'],
+        featured: true
+    },
+    {
+        id: '20',
+        name: 'Chandelier Diamond Earrings',
+        description: 'Statement chandelier earrings cascading with diamonds, designed to catch the light from every angle.',
+        price: 12000,
+        originalPrice: 14000,
+        discount: 14,
+        category: 'earrings',
+        stock: 2,
+        images: ['/products/earring-3.svg'],
+        featured: true
+    },
+    {
+        id: '21',
+        name: 'Solitaire Diamond Pendant',
+        description: 'A single, perfectly cut diamond suspended from a delicate chain, embodying understated elegance.',
+        price: 5500,
+        originalPrice: 5500,
+        discount: 0,
+        category: 'necklaces',
+        stock: 6,
+        images: ['/products/necklace-1.svg'],
+        featured: true
+    },
+    {
+        id: '22',
+        name: 'Tennis Necklace',
+        description: 'A breathtaking continuous strand of diamonds that sits beautifully on the collarbone for ultimate glamour.',
+        price: 25000,
+        originalPrice: 30000,
+        discount: 16,
+        category: 'necklaces',
+        stock: 2,
+        images: ['/products/necklace-2.svg'],
+        featured: true
+    },
+    {
+        id: '23',
+        name: 'Diamond Station Necklace',
+        description: 'Delicate diamonds spaced along a fine chain, creating a "diamonds by the yard" look that layers perfectly.',
+        price: 8200,
+        originalPrice: 8900,
+        discount: 8,
+        category: 'necklaces',
+        stock: 7,
+        images: ['/products/necklace-3.svg'],
         featured: true
     }
 ]
 
 // Bump this version whenever initialProducts data changes
-const PRODUCTS_VERSION = '2'
+const PRODUCTS_VERSION = '15'
 
 // Load from localStorage or use defaults
 const loadProducts = () => {

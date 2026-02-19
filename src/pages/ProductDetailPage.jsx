@@ -169,27 +169,25 @@ export default function ProductDetailPage() {
                                 Add to Cart
                             </button>
                             <button
-                                className={`btn btn-outline btn-lg pdp__wishlist-btn ${wishlisted ? 'pdp__wishlist-btn--active' : ''}`}
+                                className={`pdp__wishlist-btn ${wishlisted ? 'pdp__wishlist-btn--active' : ''}`}
                                 onClick={() => {
                                     toggleWishlist(product)
                                     showToast(wishlisted ? `${product.name} removed from wishlist` : `${product.name} added to wishlist`)
                                 }}
                                 title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                             >
-                                <Heart size={18} fill={wishlisted ? 'currentColor' : 'none'} />
+                                <Heart size={24} fill={wishlisted ? 'currentColor' : 'none'} />
                             </button>
                         </div>
 
                         {/* Try-On Button */}
-                        {(product.category === 'rings' || product.category === 'necklaces' || product.category === 'earrings') && (
-                            <button
-                                className="btn btn-outline btn-lg pdp__try-on"
-                                onClick={() => navigate(`/try-on/${product.id}`)}
-                            >
-                                <Sparkles size={18} />
-                                Try Preview — AI Virtual Try-On
-                            </button>
-                        )}
+                        <button
+                            className="btn btn-outline btn-lg pdp__try-on"
+                            onClick={() => navigate(`/try-on/${product.id}`)}
+                        >
+                            <Sparkles size={18} />
+                            Try Preview — AI Virtual Try-On
+                        </button>
 
                         {/* Perks */}
                         <div className="pdp__perks">

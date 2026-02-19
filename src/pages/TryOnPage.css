@@ -59,121 +59,233 @@
     font-weight: 600;
 }
 
-/* ── Coming Soon Banner ── */
-.tryon__coming-soon {
+/* ══ STEP 1: Template Section ══ */
+.tryon__template-section {
     display: flex;
-    align-items: flex-start;
-    gap: var(--space-md);
-    padding: var(--space-lg);
-    background: linear-gradient(135deg, rgba(137, 180, 212, 0.08), rgba(137, 180, 212, 0.03));
-    border: 1px solid rgba(137, 180, 212, 0.2);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--space-xl);
+    flex-direction: column;
+    gap: var(--space-xl);
 }
 
-.tryon__coming-soon svg {
-    color: var(--color-primary);
-    flex-shrink: 0;
-    margin-top: 2px;
-}
-
-.tryon__coming-soon strong {
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: var(--space-xs);
-    color: var(--color-primary);
-}
-
-.tryon__coming-soon p {
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin: 0;
-}
-
-/* ── Pose Guide ── */
-.tryon__pose-guide {
+.tryon__template-card {
     display: flex;
-    gap: var(--space-lg);
-    padding: var(--space-lg);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-xl);
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
+}
+
+/* ── Template Carousel ── */
+.tryon__template-carousel {
+    display: flex;
     align-items: center;
+    gap: var(--space-md);
+    width: 100%;
+    justify-content: center;
 }
 
-.tryon__pose-guide-visual {
-    flex-shrink: 0;
-    width: 180px;
-    height: 180px;
+.tryon__template-display {
+    width: 280px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.tryon__pose-svg {
+.tryon__svg-template {
     width: 100%;
     height: 100%;
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
 }
 
-.tryon__pose-guide-info h3 {
+.tryon__carousel-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.tryon__carousel-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(137, 180, 212, 0.08);
+}
+
+.tryon__carousel-dots {
+    display: flex;
+    gap: var(--space-xs);
+    justify-content: center;
+    margin: var(--space-md) 0;
+}
+
+.tryon__carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all var(--transition-fast);
+}
+
+.tryon__carousel-dot.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: scale(1.2);
+}
+
+.tryon__template-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+}
+
+.tryon__template-info p {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    max-width: 450px;
+}
+
+/* ── Choice Buttons ── */
+.tryon__choice {
+    text-align: center;
+}
+
+.tryon__choice-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+}
+
+.tryon__choice-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.tryon__choice-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-xl) var(--space-lg);
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--color-text);
+}
+
+.tryon__choice-btn:hover {
+    border-color: var(--color-primary);
+    background: rgba(137, 180, 212, 0.05);
+    transform: translateY(-2px);
+}
+
+.tryon__choice-btn svg {
+    color: var(--color-primary);
+}
+
+.tryon__choice-btn-title {
     font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 600;
-    margin-bottom: var(--space-sm);
 }
 
-.tryon__pose-guide-info p {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--space-xs);
+.tryon__choice-btn-desc {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
 }
 
-.tryon__pose-tip {
-    font-size: 0.78rem !important;
-    color: var(--color-primary) !important;
-    margin-top: var(--space-sm);
-}
-
-/* ── Main Layout ── */
-.tryon__main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: start;
-}
-
-/* ── Upload ── */
-.tryon__upload {
+/* ══ STEP 2: Capture ══ */
+.tryon__capture-section {
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.tryon__instructions {
-    text-align: center;
-    padding: var(--space-lg);
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-}
-
-.tryon__instructions-icon {
-    font-size: 2rem;
-    display: block;
-    margin-bottom: var(--space-sm);
-}
-
-.tryon__instructions h3 {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    margin-bottom: var(--space-xs);
-}
-
-.tryon__instructions p {
-    font-size: 0.85rem;
+.tryon__step-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.8rem;
     color: var(--color-text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: color var(--transition-fast);
+    align-self: flex-start;
 }
 
+.tryon__step-back:hover {
+    color: var(--color-primary);
+}
+
+/* ── Camera ── */
+.tryon__camera-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.tryon__camera-viewfinder {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 2px solid var(--color-border);
+    background: #111;
+    aspect-ratio: 4/3;
+}
+
+.tryon__camera-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scaleX(-1);
+}
+
+.tryon__camera-svg-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0.3;
+    padding: 10%;
+}
+
+.tryon__camera-svg-overlay svg {
+    width: 100%;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.tryon__capture-btn {
+    align-self: center;
+}
+
+/* ── Upload Dropzone ── */
 .tryon__dropzone {
     display: flex;
     flex-direction: column;
@@ -209,57 +321,47 @@
     font-size: 0.8rem;
 }
 
-.tryon__preview {
-    position: relative;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
+/* ── Photo Preview ── */
+.tryon__photo-preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
 }
 
-.tryon__preview img {
+.tryon__photo-preview>img {
     width: 100%;
-    max-height: 400px;
+    max-height: 450px;
     object-fit: contain;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
     background: #111;
 }
 
-.tryon__change-photo {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    padding: 8px 16px;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: var(--radius-md);
-    font-size: 0.8rem;
-    color: white;
-    cursor: pointer;
-    transition: background var(--transition-fast);
-}
-
-.tryon__change-photo:hover {
-    background: var(--color-primary);
-    color: #000;
-}
-
-.tryon__generate-btn {
-    width: 100%;
-}
-
-/* ── Result ── */
-.tryon__result {
-    min-height: 400px;
+.tryon__photo-actions {
     display: flex;
-    flex-direction: column;
+    gap: var(--space-sm);
 }
 
-.tryon__loading,
-.tryon__error,
-.tryon__placeholder {
+.tryon__photo-actions .btn {
     flex: 1;
+}
+
+/* ── Error ── */
+.tryon__error-msg {
+    padding: var(--space-md);
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--radius-md);
+}
+
+.tryon__error-msg p {
+    font-size: 0.85rem;
+    color: #ef4444;
+    margin: 0;
+}
+
+/* ══ Generating ══ */
+.tryon__generating {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -269,74 +371,123 @@
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    min-height: 400px;
+    min-height: 350px;
 }
 
-.tryon__loading h3,
-.tryon__placeholder h3 {
+.tryon__generating h3 {
     font-family: var(--font-heading);
     font-size: 1.1rem;
     margin-top: var(--space-lg);
     margin-bottom: var(--space-sm);
 }
 
-.tryon__loading p,
-.tryon__placeholder p {
+.tryon__generating p {
     font-size: 0.85rem;
     color: var(--color-text-muted);
+    max-width: 400px;
 }
 
-.tryon__placeholder svg {
-    opacity: 0.2;
+.tryon__spinner {
+    animation: spin 1s linear infinite;
+    color: var(--color-primary);
 }
 
-.tryon__error {
-    border-color: rgba(239, 68, 68, 0.3);
-    background: rgba(239, 68, 68, 0.05);
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-.tryon__error svg {
-    color: #ef4444;
+/* ══ Result ══ */
+.tryon__result-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
 }
 
-.tryon__error h3 {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    margin-top: var(--space-md);
-    margin-bottom: var(--space-sm);
-    color: #ef4444;
+.tryon__result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
 }
 
-.tryon__error p {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-}
-
-.tryon__result-image {
+.tryon__compare-card {
+    position: relative;
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--color-border);
-    animation: scaleIn var(--transition-base) forwards;
+    background: #111;
 }
 
-.tryon__result-image img {
+.tryon__compare-card--result {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(137, 180, 212, 0.15);
+}
+
+.tryon__compare-card img {
     width: 100%;
     display: block;
+    aspect-ratio: 1;
+    object-fit: contain;
 }
 
-.tryon__download {
-    width: 100%;
-    border-radius: 0;
-    border-top: 1px solid var(--color-border);
-    padding: var(--space-md);
+.tryon__compare-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    color: white;
+    font-weight: 500;
 }
 
+.tryon__compare-label--ai {
+    background: var(--color-primary);
+    color: #000;
+}
+
+.tryon__result-actions {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+}
+
+.tryon__result-actions .btn {
+    min-width: 180px;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
-    .tryon__main {
+    .tryon__choice-buttons {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+    }
+
+    .tryon__result-grid {
         grid-template-columns: 1fr;
     }
 
-    .tryon__result {
-        min-height: 300px;
+    .tryon__template-display {
+        width: 220px;
+        height: 280px;
+    }
+
+    .tryon__result-actions {
+        flex-direction: column;
+    }
+
+    .tryon__result-actions .btn {
+        min-width: unset;
+        width: 100%;
     }
 }

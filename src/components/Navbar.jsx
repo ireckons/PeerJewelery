@@ -41,15 +41,7 @@ export default function Navbar() {
                     <Link to="/catalog" className={`navbar__link ${location.pathname.startsWith('/catalog') ? 'active' : ''}`}>
                         Collections
                     </Link>
-                    <Link to="/catalog/rings" className={`navbar__link ${location.pathname === '/catalog/rings' ? 'active' : ''}`}>
-                        Rings
-                    </Link>
-                    <Link to="/catalog/necklaces" className={`navbar__link ${location.pathname === '/catalog/necklaces' ? 'active' : ''}`}>
-                        Necklaces
-                    </Link>
-                    <Link to="/catalog/earrings" className={`navbar__link ${location.pathname === '/catalog/earrings' ? 'active' : ''}`}>
-                        Earrings
-                    </Link>
+
                     <Link to="/admin" className={`navbar__link ${location.pathname === '/admin' ? 'active' : ''}`}>
                         Admin
                     </Link>

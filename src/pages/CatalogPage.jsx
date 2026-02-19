@@ -18,7 +18,7 @@ export default function CatalogPage() {
         else setActiveCategory('all')
     }, [category])
 
-    const categories = ['all', 'rings', 'necklaces', 'earrings']
+    const categories = ['all', 'rings', 'necklaces', 'earrings', 'bracelets']
 
     const filtered = useMemo(() => {
         let result = products
