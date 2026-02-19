@@ -111,9 +111,19 @@ const initialProducts = [
     }
 ]
 
+// Bump this version whenever initialProducts data changes
+const PRODUCTS_VERSION = '2'
+
 // Load from localStorage or use defaults
 const loadProducts = () => {
     try {
+        const savedVersion = localStorage.getItem('peer-products-version')
+        if (savedVersion !== PRODUCTS_VERSION) {
+            // Version mismatch — reset to defaults
+            localStorage.setItem('peer-products', JSON.stringify(initialProducts))
+            localStorage.setItem('peer-products-version', PRODUCTS_VERSION)
+            return initialProducts
+        }
         const saved = localStorage.getItem('peer-products')
         return saved ? JSON.parse(saved) : initialProducts
     } catch {

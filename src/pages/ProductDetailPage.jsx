@@ -1,17 +1,13 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Thumbs, Pagination } from 'swiper/modules'
+
 import {
     ShoppingBag, Heart, Sparkles, ArrowLeft, Package,
     Check, Truck, Shield
 } from 'lucide-react'
 import useStore from '../store/store'
 import ProductCard from '../components/ProductCard'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/thumbs'
+
 import './ProductDetailPage.css'
 
 export default function ProductDetailPage() {
@@ -22,7 +18,7 @@ export default function ProductDetailPage() {
     const toggleWishlist = useStore((s) => s.toggleWishlist)
     const isInWishlist = useStore((s) => s.isInWishlist)
     const showToast = useStore((s) => s.showToast)
-    const [thumbsSwiper, setThumbsSwiper] = useState(null)
+    const [selectedImage, setSelectedImage] = useState(0)
     const [quantity, setQuantity] = useState(1)
 
     const product = products.find((p) => p.id === id)
@@ -68,37 +64,40 @@ export default function ProductDetailPage() {
                 </nav>
 
                 <div className="pdp__main">
-                    {/* Image Carousel */}
+                    {/* Image Gallery */}
                     <div className="pdp__gallery animate-fade-in-up">
-                        <Swiper
-                            modules={[Navigation, Thumbs, Pagination]}
-                            navigation
-                            pagination={{ clickable: true }}
-                            thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-                            className="pdp__main-swiper"
-                        >
-                            {product.images.map((img, i) => (
-                                <SwiperSlide key={i}>
-                                    <div className="pdp__image-wrap">
-                                        <img src={img} alt={`${product.name} view ${i + 1}`} />
-                                    </div>
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                        <div className="pdp__main-image">
+                            <img
+                                src={product.images[selectedImage || 0]}
+                                alt={`${product.name} view ${(selectedImage || 0) + 1}`}
+                                className="pdp__slide-img"
+                            />
+                            {product.images.length > 1 && (
+                                <>
+                                    <button
+                                        className="pdp__nav-btn pdp__nav-btn--prev"
+                                        onClick={() => setSelectedImage((prev) => (prev || 0) > 0 ? (prev || 0) - 1 : product.images.length - 1)}
+                                    >‹</button>
+                                    <button
+                                        className="pdp__nav-btn pdp__nav-btn--next"
+                                        onClick={() => setSelectedImage((prev) => (prev || 0) < product.images.length - 1 ? (prev || 0) + 1 : 0)}
+                                    >›</button>
+                                </>
+                            )}
+                        </div>
 
                         {product.images.length > 1 && (
-                            <Swiper
-                                onSwiper={setThumbsSwiper}
-                                spaceBetween={8}
-                                slidesPerView={4}
-                                className="pdp__thumbs-swiper"
-                            >
+                            <div className="pdp__thumbs">
                                 {product.images.map((img, i) => (
-                                    <SwiperSlide key={i}>
-                                        <img src={img} alt={`Thumb ${i + 1}`} className="pdp__thumb" />
-                                    </SwiperSlide>
+                                    <button
+                                        key={i}
+                                        className={`pdp__thumb-btn ${(selectedImage || 0) === i ? 'pdp__thumb-btn--active' : ''}`}
+                                        onClick={() => setSelectedImage(i)}
+                                    >
+                                        <img src={img} alt={`Thumb ${i + 1}`} />
+                                    </button>
                                 ))}
-                            </Swiper>
+                            </div>
                         )}
                     </div>
 
