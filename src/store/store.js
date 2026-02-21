@@ -109,9 +109,14 @@ const useStore = create((set, get) => ({
             if (res.ok) {
                 const newProduct = await res.json();
                 set((state) => ({ products: [...state.products, newProduct] }));
+                return { success: true, product: newProduct };
+            } else {
+                const errData = await res.json();
+                return { success: false, error: errData.error || 'Failed to add product' };
             }
         } catch (err) {
             console.error('Failed to add product:', err);
+            return { success: false, error: 'Network error' };
         }
     },
 
@@ -127,9 +132,14 @@ const useStore = create((set, get) => ({
                 set((state) => ({
                     products: state.products.map((p) => (p.id === id ? updatedProduct : p)),
                 }));
+                return { success: true };
+            } else {
+                const errData = await res.json();
+                return { success: false, error: errData.error || 'Failed to update product' };
             }
         } catch (err) {
             console.error('Failed to update product:', err);
+            return { success: false, error: 'Network error' };
         }
     },
 

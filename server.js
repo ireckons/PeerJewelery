@@ -167,7 +167,7 @@ app.post('/api/products', async (req, res) => {
         });
     }
 
-    products.push(newProduct);
+    products.unshift(newProduct);
 
     if (await saveProducts(products)) {
         res.status(201).json(newProduct);

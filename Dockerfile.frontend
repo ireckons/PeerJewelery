@@ -20,11 +20,10 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the custom Nginx configuration (if any) or just use the default
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Copy the built assets from the builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Update Nginx config to listen on 8080 instead of 80 to avoid privileged port permission errors
-RUN sed -i 's/listen  *80;/listen 8080;/g' /etc/nginx/conf.d/default.conf || true
 
 # Expose port 8080
 EXPOSE 8080

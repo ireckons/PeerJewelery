@@ -289,7 +289,7 @@ export default function AdminPage() {
         })
     }
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const price = parseFloat(form.price)
         const originalPrice = parseFloat(form.originalPrice) || price
         const stock = parseInt(form.stock, 10) || 0
@@ -310,15 +310,29 @@ export default function AdminPage() {
         }
 
         if (editingProduct) {
-            updateProduct(editingProduct.id, productData)
-            showToast('Product updated successfully')
+            const res = await updateProduct(editingProduct.id, productData)
+            if (res?.success) {
+                showToast('Product updated successfully')
+                setShowModal(false)
+                setForm(emptyProduct)
+            } else {
+                showToast(res?.error || 'Failed to update product')
+            }
         } else {
-            addProduct(productData)
-            showToast('Product added successfully')
+            const res = await addProduct(productData)
+            if (res?.success) {
+                showToast('Product added successfully')
+                setShowModal(false)
+                setForm(emptyProduct)
+                // Automatically switch to the category of the new product so the user sees it
+                if (selectedCategory !== 'All' && selectedCategory !== productData.category) {
+                    setSelectedCategory('All')
+                }
+                // Optional: Scroll to bottom could be added if needed
+            } else {
+                showToast(res?.error || 'Failed to add product')
+            }
         }
-
-        setShowModal(false)
-        setForm(emptyProduct)
     }
 
     const handleDelete = (id) => {
