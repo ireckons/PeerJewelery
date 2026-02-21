@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-const API_URL = 'http://localhost:5000/api/products'
+const API_URL = 'http://localhost:5001/api/products'
 
 // Load from localStorage or use defaults
 const loadCart = () => {
@@ -52,7 +52,7 @@ const useStore = create((set, get) => ({
 
     fetchCategories: async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/categories');
+            const res = await fetch('http://localhost:5001/api/categories');
             if (res.ok) {
                 const data = await res.json();
                 set({ categories: data });
@@ -66,7 +66,7 @@ const useStore = create((set, get) => ({
 
     addCategory: async (name) => {
         try {
-            const res = await fetch('http://localhost:5000/api/categories', {
+            const res = await fetch('http://localhost:5001/api/categories', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name }),
@@ -87,7 +87,7 @@ const useStore = create((set, get) => ({
 
     deleteCategory: async (name) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/categories/${name}`, {
+            const res = await fetch(`http://localhost:5001/api/categories/${name}`, {
                 method: 'DELETE',
             });
             if (res.ok) {
@@ -192,7 +192,7 @@ const useStore = create((set, get) => ({
                 return { products: newProducts };
             });
 
-            const res = await fetch(`http://localhost:5000/api/products/reorder-category`, {
+            const res = await fetch(`http://localhost:5001/api/products/reorder-category`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ category, orderedIds })
