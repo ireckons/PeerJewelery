@@ -47,7 +47,8 @@
 
 .pdp__slide-img {
     width: 100%;
-    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
     display: block;
 }
 
@@ -88,6 +89,7 @@
     display: flex;
     gap: 8px;
     margin-top: var(--space-sm);
+    align-items: flex-start;
 }
 
 .pdp__thumb-btn {
@@ -99,9 +101,11 @@
     padding: 0;
     cursor: pointer;
     transition: border-color var(--transition-fast);
+    aspect-ratio: 1;
 }
 
-.pdp__thumb-btn img {
+.pdp__thumb-btn img,
+.pdp__thumb-btn video {
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;

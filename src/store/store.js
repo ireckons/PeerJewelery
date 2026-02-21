@@ -1,197 +1,8 @@
 import { create } from 'zustand'
 
-const initialProducts = [
-
-    {
-        id: '10',
-        name: 'Marquise Cut Solitaire',
-        description: 'An elegant marquise-cut diamond that elongates the finger, maximizing carat weight brilliance.',
-        price: 10500,
-        originalPrice: 10500,
-        discount: 0,
-        category: 'rings',
-        stock: 4,
-        images: ['/products/rings/marquise-cut-solitaire/1.jpg', '/products/rings/marquise-cut-solitaire/2.jpg', '/products/rings/marquise-cut-solitaire/3.jpg'],
-        featured: true
-    },
-    {
-        id: '11',
-        name: 'Three-Stone Trilogy Ring',
-        description: 'Symbolizing the past, present, and future, this trilogy ring features three perfectly matched diamonds.',
-        price: 13200,
-        originalPrice: 15000,
-        discount: 12,
-        category: 'rings',
-        stock: 3,
-        images: ['/products/ring-11.svg'],
-        featured: true
-    },
-    {
-        id: '12',
-        name: 'Oval Cut Double Band Ring',
-        description: 'A stunning oval diamond set on a unique double band for a modern yet timeless architectural look.',
-        price: 11800,
-        originalPrice: 11800,
-        discount: 0,
-        category: 'rings',
-        stock: 5,
-        images: ['/products/rings/oval-cut-double-band-ring/1.jpg', '/products/rings/oval-cut-double-band-ring/2.jpg', '/products/rings/oval-cut-double-band-ring/3.jpg', '/products/rings/oval-cut-double-band-ring/4.jpg'],
-        featured: true
-    },
-    {
-        id: '13',
-        name: 'Three-Stone Oval Ring',
-        description: 'A magnificent center oval diamond flanked by two side stones, creating a wall of brilliance.',
-        price: 14500,
-        originalPrice: 16500,
-        discount: 12,
-        category: 'rings',
-        stock: 2,
-        images: ['/products/rings/three-stone-oval-ring/1.jpg', '/products/rings/three-stone-oval-ring/2.jpg', '/products/rings/three-stone-oval-ring/3.jpg', '/products/rings/three-stone-oval-ring/4.jpg'],
-        featured: true
-    },
-    {
-        id: '14',
-        name: 'Solitaire Split Shank Ring',
-        description: 'A brilliant solitaire diamond perched on a graceful split shank band that draws the eye to the center stone.',
-        price: 9200,
-        originalPrice: 9200,
-        discount: 0,
-        category: 'rings',
-        stock: 6,
-        images: ['/products/rings/solitaire-split-shank-ring/1.jpg', '/products/rings/solitaire-split-shank-ring/2.jpg', '/products/rings/solitaire-split-shank-ring/3.jpg', '/products/rings/solitaire-split-shank-ring/4.jpg'],
-        featured: true
-    },
-    {
-        id: '15',
-        name: 'Full Eternity Band',
-        description: 'A continuous circle of brilliance, this full eternity band features precision-set diamonds symbolizing never-ending love.',
-        price: 7200,
-        originalPrice: 8000,
-        discount: 10,
-        category: 'bracelets',
-        stock: 6,
-        images: ['/products/ring-15.svg'],
-        featured: true
-    },
-    {
-        id: '16',
-        name: 'Stacked Eternity Bands',
-        description: 'A curated stack of diamond eternity bands, perfect for wearing together for maximum sparkle or individually.',
-        price: 8800,
-        originalPrice: 9500,
-        discount: 7,
-        category: 'bracelets',
-        stock: 4,
-        images: ['/products/bracelets/stacked-eternity-bands/1.jpg', '/products/bracelets/stacked-eternity-bands/2.jpg', '/products/bracelets/stacked-eternity-bands/3.jpg', '/products/bracelets/stacked-eternity-bands/4.jpg', '/products/bracelets/stacked-eternity-bands/5.jpg'],
-        featured: true
-    },
-    {
-        id: '17',
-        name: 'Diamond Tennis Bracelets',
-        description: 'A stack of exquisite diamond tennis bracelets in varying carat weights, the ultimate statement of luxury.',
-        price: 18500,
-        originalPrice: 22000,
-        discount: 16,
-        category: 'bracelets',
-        stock: 5,
-        images: ['/products/bracelets/diamond-tennis-bracelets/1.jpg', '/products/bracelets/diamond-tennis-bracelets/2.jpg', '/products/bracelets/diamond-tennis-bracelets/3.jpg'],
-        featured: true
-    },
-    {
-        id: '18',
-        name: 'Diamond Stud Earrings',
-        description: 'Classic and timeless, these brilliant-cut diamond studs are the perfect everyday luxury essential.',
-        price: 4500,
-        originalPrice: 4800,
-        discount: 6,
-        category: 'earrings',
-        stock: 8,
-        images: ['/products/earring-1.svg'],
-        featured: true
-    },
-    {
-        id: '19',
-        name: 'Halo Drop Earrings',
-        description: 'Elegant drop earrings featuring a dazzling center stone surrounded by a halo of smaller diamonds.',
-        price: 6800,
-        originalPrice: 7500,
-        discount: 9,
-        category: 'earrings',
-        stock: 5,
-        images: ['/products/earring-2.svg'],
-        featured: true
-    },
-    {
-        id: '20',
-        name: 'Chandelier Diamond Earrings',
-        description: 'Statement chandelier earrings cascading with diamonds, designed to catch the light from every angle.',
-        price: 12000,
-        originalPrice: 14000,
-        discount: 14,
-        category: 'earrings',
-        stock: 2,
-        images: ['/products/earring-3.svg'],
-        featured: true
-    },
-    {
-        id: '21',
-        name: 'Solitaire Diamond Pendant',
-        description: 'A single, perfectly cut diamond suspended from a delicate chain, embodying understated elegance.',
-        price: 5500,
-        originalPrice: 5500,
-        discount: 0,
-        category: 'necklaces',
-        stock: 6,
-        images: ['/products/necklace-1.svg'],
-        featured: true
-    },
-    {
-        id: '22',
-        name: 'Tennis Necklace',
-        description: 'A breathtaking continuous strand of diamonds that sits beautifully on the collarbone for ultimate glamour.',
-        price: 25000,
-        originalPrice: 30000,
-        discount: 16,
-        category: 'necklaces',
-        stock: 2,
-        images: ['/products/necklace-2.svg'],
-        featured: true
-    },
-    {
-        id: '23',
-        name: 'Diamond Station Necklace',
-        description: 'Delicate diamonds spaced along a fine chain, creating a "diamonds by the yard" look that layers perfectly.',
-        price: 8200,
-        originalPrice: 8900,
-        discount: 8,
-        category: 'necklaces',
-        stock: 7,
-        images: ['/products/necklace-3.svg'],
-        featured: true
-    }
-]
-
-// Bump this version whenever initialProducts data changes
-const PRODUCTS_VERSION = '15'
+const API_URL = 'http://localhost:5000/api/products'
 
 // Load from localStorage or use defaults
-const loadProducts = () => {
-    try {
-        const savedVersion = localStorage.getItem('peer-products-version')
-        if (savedVersion !== PRODUCTS_VERSION) {
-            // Version mismatch — reset to defaults
-            localStorage.setItem('peer-products', JSON.stringify(initialProducts))
-            localStorage.setItem('peer-products-version', PRODUCTS_VERSION)
-            return initialProducts
-        }
-        const saved = localStorage.getItem('peer-products')
-        return saved ? JSON.parse(saved) : initialProducts
-    } catch {
-        return initialProducts
-    }
-}
-
 const loadCart = () => {
     try {
         const saved = localStorage.getItem('peer-cart')
@@ -221,38 +32,186 @@ const loadRequests = () => {
 
 const useStore = create((set, get) => ({
     // ── Products ──
-    products: loadProducts(),
+    products: [],
+    loading: false,
 
-    addProduct: (product) => {
-        const newProduct = { ...product, id: Date.now().toString() }
-        set((state) => {
-            const updated = [...state.products, newProduct]
-            localStorage.setItem('peer-products', JSON.stringify(updated))
-            return { products: updated }
-        })
+    fetchProducts: async () => {
+        set({ loading: true });
+        try {
+            const res = await fetch(API_URL);
+            const data = await res.json();
+            set({ products: data, loading: false });
+        } catch (err) {
+            console.error('Failed to fetch products:', err);
+            set({ loading: false });
+        }
     },
 
-    updateProduct: (id, updates) => {
-        set((state) => {
-            const updated = state.products.map((p) =>
-                p.id === id ? { ...p, ...updates } : p
-            )
-            localStorage.setItem('peer-products', JSON.stringify(updated))
-            return { products: updated }
-        })
+    // ── Categories ──
+    categories: [],
+
+    fetchCategories: async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/categories');
+            if (res.ok) {
+                const data = await res.json();
+                set({ categories: data });
+            }
+        } catch (err) {
+            console.error('Failed to fetch categories:', err);
+            // Fallback for UI resilience
+            set({ categories: ["rings", "necklaces", "earrings", "bracelets"] });
+        }
     },
 
-    deleteProduct: (id) => {
-        set((state) => {
-            const updated = state.products.filter((p) => p.id !== id)
-            localStorage.setItem('peer-products', JSON.stringify(updated))
-            return { products: updated }
-        })
+    addCategory: async (name) => {
+        try {
+            const res = await fetch('http://localhost:5000/api/categories', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name }),
+            });
+            if (res.ok) {
+                const data = await res.json();
+                set({ categories: data.categories });
+                return { success: true };
+            } else {
+                const errData = await res.json();
+                return { success: false, error: errData.error };
+            }
+        } catch (err) {
+            console.error('Failed to add category:', err);
+            return { success: false, error: 'Network error' };
+        }
     },
 
-    resetProducts: () => {
-        localStorage.setItem('peer-products', JSON.stringify(initialProducts))
-        set({ products: initialProducts })
+    deleteCategory: async (name) => {
+        try {
+            const res = await fetch(`http://localhost:5000/api/categories/${name}`, {
+                method: 'DELETE',
+            });
+            if (res.ok) {
+                const data = await res.json();
+                set({ categories: data.categories });
+            }
+        } catch (err) {
+            console.error('Failed to delete category:', err);
+        }
+    },
+
+    addProduct: async (product) => {
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product),
+            });
+            if (res.ok) {
+                const newProduct = await res.json();
+                set((state) => ({ products: [...state.products, newProduct] }));
+            }
+        } catch (err) {
+            console.error('Failed to add product:', err);
+        }
+    },
+
+    updateProduct: async (id, updates) => {
+        try {
+            const res = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updates),
+            });
+            if (res.ok) {
+                const updatedProduct = await res.json();
+                set((state) => ({
+                    products: state.products.map((p) => (p.id === id ? updatedProduct : p)),
+                }));
+            }
+        } catch (err) {
+            console.error('Failed to update product:', err);
+        }
+    },
+
+    deleteProduct: async (id) => {
+        try {
+            const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                set((state) => ({
+                    products: state.products.filter((p) => p.id !== id),
+                }));
+            }
+        } catch (err) {
+            console.error('Failed to delete product:', err);
+        }
+    },
+
+    reorderProduct: async (id, direction, category) => {
+        try {
+            const res = await fetch(`${API_URL}/${id}/reorder`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ direction, category })
+            });
+            if (res.ok) {
+                // Refresh the whole product list to get the new order
+                get().fetchProducts();
+            }
+        } catch (err) {
+            console.error('Failed to reorder product:', err);
+        }
+    },
+
+    reorderCategoryList: async (category, orderedIds) => {
+        try {
+            // Optimistically update local state for snappier UI
+            set((state) => {
+                const isAll = category === 'All';
+                const categoryProducts = state.products.filter((p) => isAll || p.category === category);
+
+                const reorderedCategoryProducts = [];
+                orderedIds.forEach(id => {
+                    const product = categoryProducts.find(p => p.id === id);
+                    if (product) reorderedCategoryProducts.push(product);
+                });
+
+                // Add any missing
+                categoryProducts.forEach(p => {
+                    if (!orderedIds.includes(p.id)) reorderedCategoryProducts.push(p);
+                });
+
+                const newProducts = [...state.products];
+                const positions = newProducts.map((p, index) => (isAll || p.category === category) ? index : -1).filter(index => index !== -1);
+
+                positions.forEach((globalIndex, i) => {
+                    if (reorderedCategoryProducts[i]) {
+                        newProducts[globalIndex] = reorderedCategoryProducts[i];
+                    }
+                });
+
+                return { products: newProducts };
+            });
+
+            const res = await fetch(`http://localhost:5000/api/products/reorder-category`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, orderedIds })
+            });
+
+            if (!res.ok) {
+                console.error('Failed to persist reorder, reverting...');
+                get().fetchProducts(); // Revert on failure
+            }
+        } catch (err) {
+            console.error('Failed to reorder category list:', err);
+            get().fetchProducts(); // Revert on failure
+        }
+    },
+
+    resetProducts: async () => {
+        // Resetting on a live backend would require a specific route, 
+        // for now we'll just alert since the file is the source of truth.
+        alert("Resetting data is disabled when using the backend. Modify products.json directly if needed.");
     },
 
     // ── Cart ──

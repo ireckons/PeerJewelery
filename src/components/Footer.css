@@ -1,5 +1,5 @@
 .footer {
-    background: var(--color-bg-elevated);
+    background: transparent;
     border-top: 1px solid var(--color-border);
     padding: var(--space-3xl) 0 var(--space-xl);
 }
@@ -45,7 +45,7 @@
 
 .footer__slogan-en {
     font-size: 0.8rem;
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     font-style: italic;
     margin-top: var(--space-xs);
 }
@@ -56,14 +56,14 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-text);
+    color: #ffffff !important;
     margin-bottom: var(--space-md);
 }
 
 .footer__nav a {
     display: block;
     font-size: 0.85rem;
-    color: var(--color-text-muted);
+    color: #cccccc !important;
     transition: color var(--transition-fast);
     margin-bottom: var(--space-sm);
 }
@@ -78,7 +78,7 @@
 }
 
 .footer__socials a {
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     transition: color var(--transition-fast);
 }
 
@@ -92,7 +92,7 @@
     justify-content: space-between;
     padding-top: var(--space-xl);
     font-size: 0.8rem;
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
 }
 
 .footer__bottom-links {
@@ -101,7 +101,7 @@
 }
 
 .footer__bottom-links a {
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     transition: color var(--transition-fast);
 }
 

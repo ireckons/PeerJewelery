@@ -5,7 +5,8 @@ import {
     Download, RotateCcw, Loader2, ChevronLeft, ChevronRight
 } from 'lucide-react'
 import useStore from '../store/store'
-import { generateTryOn, imageUrlToBase64, isApiConfigured, detectHandLandmarks } from '../utils/geminiApi'
+import { imageUrlToBase64, isApiConfigured } from '../utils/geminiApi'
+import { generateJewelryTryOn } from '../utils/try-on'
 import './TryOnPage.css'
 
 /* ── SVG Templates ── */
@@ -298,34 +299,17 @@ export default function TryOnPage() {
         setStep('generating'); setError(null); setResultImage(null)
         try {
             const productImageBase64 = await imageUrlToBase64(product.images[0])
-            const result = await generateTryOn(userPhoto, productImageBase64, product.category, product)
+
+            const cleanUserPhoto = userPhoto.replace(/^data:image\/\w+;base64,/, '')
+            const cleanProductPhoto = productImageBase64.replace(/^data:image\/\w+;base64,/, '')
+            const apiKey = import.meta.env.VITE_GEMINI_API_KEY
+
+            const result = await generateJewelryTryOn(apiKey, cleanUserPhoto, cleanProductPhoto, product.category, product.name)
             setResultImage(result); setStep('result')
         } catch (err) {
-            console.warn('API Try-on failed, falling back to local overlay:', err)
-            // Fallback to local 2D composition with AI landmarks
-            try {
-                let landmarks = null
-                // Try to detect landmarks if key is available
-                if (isApiConfigured()) {
-                    try {
-                        // Show analysis state
-                        setStep('generating') // Keep spinner
-                        // Analyis usually takes 2-3s
-                        landmarks = await detectHandLandmarks(userPhoto)
-                    } catch (e) {
-                        console.warn('Landmark detection failed, utilizing heuristics', e)
-                    }
-                }
-
-                const fallbackResult = await generateLocalTryOn(userPhoto, product.images[0], product.category, landmarks)
-                setResultImage(fallbackResult)
-                setStep('result')
-                setError('Gemini AI analyzed your hand position for a perfect fit! (2D Mode)')
-            } catch (fallbackErr) {
-                console.error('Local fallback failed:', fallbackErr)
-                setError(err.message || 'Something went wrong. Please try again.')
-                setStep('capture')
-            }
+            console.error('API Try-on failed:', err)
+            setError(err.message || 'Something went wrong. Please try again.')
+            setStep('capture')
         }
     }
 
@@ -518,96 +502,3 @@ export default function TryOnPage() {
     )
 }
 
-/**
- * Fallback: Generate a simple 2D overlay when API fails
- */
-async function generateLocalTryOn(userPhotoDataUrl, productImageUrl, category, landmarks) {
-    return new Promise((resolve, reject) => {
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-
-        const userImg = new Image()
-        userImg.onload = () => {
-            canvas.width = userImg.naturalWidth
-            canvas.height = userImg.naturalHeight
-            ctx.drawImage(userImg, 0, 0)
-
-            const prodImg = new Image()
-            prodImg.onload = () => {
-                // Defaults (Center)
-                let w = canvas.width * 0.3
-                let h = 0, x = 0, y = 0
-
-                // Smart Placement using AI Landmarks
-                if (landmarks && category === 'rings' && landmarks.ring_finger) {
-                    const f = landmarks.ring_finger
-                    // Heuristics based on 0-1000 scale
-                    const baseX = (f.base_x / 1000) * canvas.width
-                    const baseY = (f.base_y / 1000) * canvas.height
-                    const width = (f.width / 1000) * canvas.width
-
-                    // Scaling: Ring wider than finger base
-                    const estimatedFingerWidth = width || (canvas.width * 0.05)
-                    w = estimatedFingerWidth * 2.2
-
-                    // Position: Center on knuckle
-                    const centerX = baseX
-                    const centerY = baseY
-
-                    h = w * (prodImg.naturalHeight / prodImg.naturalWidth)
-                    x = centerX - w / 2
-                    y = centerY - h / 2
-                }
-                else if (landmarks && category === 'wrist' && landmarks.wrist) {
-                    const wr = landmarks.wrist
-                    const cx = (wr.center_x / 1000) * canvas.width
-                    const cy = (wr.center_y / 1000) * canvas.height
-                    w = ((wr.width / 1000) * canvas.width) * 1.5
-                    h = w * (prodImg.naturalHeight / prodImg.naturalWidth)
-                    x = cx - w / 2
-                    y = cy - h / 2
-                }
-                else {
-                    // Heuristic Fallback (Original logic)
-                    if (category === 'necklaces') w = canvas.width * 0.45
-                    else if (category === 'earrings') w = canvas.width * 0.15
-                    else if (category === 'bracelets') w = canvas.width * 0.25
-                    else if (category === 'rings') w = canvas.width * 0.15
-
-                    h = w * (prodImg.naturalHeight / prodImg.naturalWidth)
-                    x = (canvas.width - w) / 2
-                    y = (canvas.height - h) / 2
-
-                    if (category === 'necklaces') { y = canvas.height * 0.38 }
-                    else if (category === 'earrings') { y = canvas.height * 0.45; x = canvas.width * 0.4 }
-                    else if (category === 'bracelets') { y = canvas.height * 0.65; x = canvas.width * 0.4 }
-                    else if (category === 'rings') { y = canvas.height * 0.6; x = canvas.width * 0.45 }
-                }
-
-                // Create circular clipping path for "lens view" effect
-                ctx.save()
-                ctx.beginPath()
-                const centerX = x + w / 2
-                const centerY = y + h / 2
-                const radius = Math.min(w, h) / 2
-                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2)
-                ctx.closePath()
-                ctx.clip()
-
-                ctx.drawImage(prodImg, x, y, w, h)
-
-                // Add subtle border
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)'
-                ctx.lineWidth = 2
-                ctx.stroke()
-
-                ctx.restore()
-                resolve(canvas.toDataURL('image/png'))
-            }
-            prodImg.onerror = reject
-            prodImg.src = productImageUrl
-        }
-        userImg.onerror = reject
-        userImg.src = userPhotoDataUrl
-    })
-}

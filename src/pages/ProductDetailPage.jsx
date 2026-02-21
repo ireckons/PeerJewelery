@@ -67,11 +67,19 @@ export default function ProductDetailPage() {
                     {/* Image Gallery */}
                     <div className="pdp__gallery animate-fade-in-up">
                         <div className="pdp__main-image">
-                            <img
-                                src={product.images[selectedImage || 0]}
-                                alt={`${product.name} view ${(selectedImage || 0) + 1}`}
-                                className="pdp__slide-img"
-                            />
+                            {product.images[selectedImage || 0]?.match(/\.(mp4|webm|ogg)$/i) ? (
+                                <video
+                                    src={product.images[selectedImage || 0]}
+                                    className="pdp__slide-img"
+                                    muted loop autoPlay playsInline
+                                />
+                            ) : (
+                                <img
+                                    src={product.images[selectedImage || 0]}
+                                    alt={`${product.name} view ${(selectedImage || 0) + 1}`}
+                                    className="pdp__slide-img"
+                                />
+                            )}
                             {product.images.length > 1 && (
                                 <>
                                     <button
@@ -94,7 +102,11 @@ export default function ProductDetailPage() {
                                         className={`pdp__thumb-btn ${(selectedImage || 0) === i ? 'pdp__thumb-btn--active' : ''}`}
                                         onClick={() => setSelectedImage(i)}
                                     >
-                                        <img src={img} alt={`Thumb ${i + 1}`} />
+                                        {img.match(/\.(mp4|webm|ogg)$/i) ? (
+                                            <video src={img} muted loop playsInline style={{ pointerEvents: 'none' }} />
+                                        ) : (
+                                            <img src={img} alt={`Thumb ${i + 1}`} />
+                                        )}
                                     </button>
                                 ))}
                             </div>

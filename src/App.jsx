@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -12,8 +13,18 @@ import WishlistPage from './pages/WishlistPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import TermsPage from './pages/TermsPage'
 import AccessibilityPage from './pages/AccessibilityPage'
+import useStore from './store/store'
 
 export default function App() {
+    const fetchProducts = useStore((s) => s.fetchProducts)
+    const fetchCategories = useStore((s) => s.fetchCategories)
+
+    useEffect(() => {
+        // Fetch products from the new backend when the app loads
+        fetchProducts()
+        fetchCategories()
+    }, [fetchProducts, fetchCategories])
+
     return (
         <div className="app">
             <Navbar />

@@ -13,39 +13,41 @@ export default function HomePage() {
             name: 'Rings',
             slug: 'rings',
             description: 'Timeless symbols of commitment',
-            image: '/products/ring-4.svg'
+            image: '/products/Ring Preview Page Banner.png'
         },
         {
             name: 'Necklaces',
             slug: 'necklaces',
             description: 'Elegant statements of grace',
-            image: '/products/ring-1.svg'
+            image: '/products/Necklace homepage preview.png'
         },
         {
             name: 'Earrings',
             slug: 'earrings',
             description: 'Sparkling accents of beauty',
-            image: '/products/ring-5.svg'
+            image: '/products/Earrings Homepage preview image.png'
         }
     ]
 
     return (
         <div className="home">
+            {/* ── Global Animated Background ── */}
+            <div className="home__bg">
+                <div className="home__gradient" />
+                <div className="home__particles">
+                    {[...Array(30)].map((_, i) => (
+                        <div key={i} className="home__particle" style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            animationDelay: `${Math.random() * 5}s`,
+                            animationDuration: `${3 + Math.random() * 4}s`
+                        }} />
+                    ))}
+                </div>
+            </div>
+
             {/* ── Hero ── */}
             <section className="hero">
-                <div className="hero__bg">
-                    <div className="hero__gradient" />
-                    <div className="hero__particles">
-                        {[...Array(20)].map((_, i) => (
-                            <div key={i} className="hero__particle" style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 5}s`,
-                                animationDuration: `${3 + Math.random() * 4}s`
-                            }} />
-                        ))}
-                    </div>
-                </div>
                 <div className="hero__content container animate-fade-in-up">
                     <p className="hero__label">✦ Est. 2024 — Luxury Reimagined</p>
                     <h1 className="hero__title">
@@ -74,17 +76,14 @@ export default function HomePage() {
                     <div className="feature">
                         <Sparkles size={28} className="feature__icon" />
                         <h3>Handcrafted Excellence</h3>
-                        <p>Each piece is meticulously crafted by master artisans using only the finest materials.</p>
                     </div>
                     <div className="feature">
                         <Shield size={28} className="feature__icon" />
                         <h3>Certified Diamonds</h3>
-                        <p>Every diamond is GIA certified, ensuring unmatched quality and authenticity.</p>
                     </div>
                     <div className="feature">
                         <Truck size={28} className="feature__icon" />
                         <h3>Worldwide Delivery</h3>
-                        <p>Insured and discreet shipping to your doorstep, anywhere in the world.</p>
                     </div>
                 </div>
             </section>
@@ -156,11 +155,6 @@ export default function HomePage() {
                             <Link to="/catalog" className="btn btn-primary" style={{ marginTop: '1.5rem' }}>
                                 Discover Our Craft <ArrowRight size={16} />
                             </Link>
-                        </div>
-                        <div className="brand-story__visual">
-                            <div className="brand-story__image-wrap">
-                                <img src="/products/ring-6.svg" alt="Craftsmanship" className="brand-story__image" />
-                            </div>
                         </div>
                     </div>
                 </div>

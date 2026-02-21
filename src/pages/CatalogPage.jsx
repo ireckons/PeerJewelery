@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import useStore from '../store/store'
 import ProductCard from '../components/ProductCard'
 import { Search, SlidersHorizontal } from 'lucide-react'
@@ -7,9 +7,11 @@ import './CatalogPage.css'
 
 export default function CatalogPage() {
     const { category } = useParams()
+    const navigate = useNavigate()
     const products = useStore((s) => s.products)
+    const storeCategories = useStore((s) => s.categories)
     const [search, setSearch] = useState('')
-    const [sort, setSort] = useState('name')
+    const [sort, setSort] = useState('popularity')
     const [activeCategory, setActiveCategory] = useState(category || 'all')
 
     // Sync URL param
@@ -18,7 +20,7 @@ export default function CatalogPage() {
         else setActiveCategory('all')
     }, [category])
 
-    const categories = ['all', 'rings', 'necklaces', 'earrings', 'bracelets']
+    const categories = ['all', ...storeCategories]
 
     const filtered = useMemo(() => {
         let result = products
@@ -43,9 +45,9 @@ export default function CatalogPage() {
             case 'price-desc':
                 result = [...result].sort((a, b) => b.price - a.price)
                 break
-            case 'name':
+            case 'popularity':
             default:
-                result = [...result].sort((a, b) => a.name.localeCompare(b.name))
+                // Preserve admin defined array order
                 break
         }
 
@@ -58,10 +60,10 @@ export default function CatalogPage() {
                 {/* Header */}
                 <div className="catalog__header animate-fade-in-up">
                     <div>
-                        <p className="section-label">Our Collection</p>
+                        <p className="section-label">Discover</p>
                         <h1 className="section-title">
                             {activeCategory === 'all'
-                                ? 'All Jewelry'
+                                ? 'All Jewellery'
                                 : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
                         </h1>
                     </div>
@@ -75,9 +77,10 @@ export default function CatalogPage() {
                             <button
                                 key={cat}
                                 className={`catalog__tab ${activeCategory === cat ? 'catalog__tab--active' : ''}`}
-                                onClick={() => setActiveCategory(cat)}
+                                onClick={() => navigate(cat === 'all' ? '/catalog' : `/catalog/${cat}`)}
+                                style={{ textTransform: 'capitalize' }}
                             >
-                                {cat === 'all' ? 'All' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                                {cat}
                             </button>
                         ))}
                     </div>
@@ -96,7 +99,7 @@ export default function CatalogPage() {
                         <div className="catalog__sort">
                             <SlidersHorizontal size={14} />
                             <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                                <option value="name">Sort by Name</option>
+                                <option value="popularity">Sort by Popularity</option>
                                 <option value="price-asc">Price: Low to High</option>
                                 <option value="price-desc">Price: High to Low</option>
                             </select>
